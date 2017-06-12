@@ -1,0 +1,58 @@
+{
+    "manifestVersion": 1,
+    "id": "vsts-nugetversionsynchronizer-tasks",
+    "version": "0.0.3",
+    "name": "Nuget version synchronizer",
+    "description": "Set a .nuspec version field from a file version.",
+    "publisher": "CdiscountAlm",
+    "icons": {
+        "default": "img/logo.png"
+    },
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "galleryFlags": [
+        "Public"
+    ],
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
+    },
+    "tags": [
+        "cdiscount",
+        "alm",
+        "nuget",
+        "version",
+        "package",
+        "synchronize",
+        "nuspec",
+        "nupkg"
+    ],
+    "branding": {
+        "color": "rgb(220, 235, 252)",
+        "theme": "light"
+    },
+    "files": [
+        {
+            "path": "Tasks/NugetVersionSynchronizerTask"
+        }
+    ],
+    "categories": [
+        "Build and release"
+    ],
+    "contributions": [
+        {
+            "id": "vsts-nugetversionsynchronizer-task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "type": "ms.vss-distributed-task.task",
+            "properties": {
+                "name": "Tasks/NugetVersionSynchronizerTask"
+            }
+        }
+    ]
+}
