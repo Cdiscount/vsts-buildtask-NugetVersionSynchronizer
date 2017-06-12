@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "vsts-nugetversionsynchronizer-tasks",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "name": "Nuget version synchronizer",
     "description": "Set a .nuspec version field from a file version.",
     "publisher": "CdiscountAlm",
