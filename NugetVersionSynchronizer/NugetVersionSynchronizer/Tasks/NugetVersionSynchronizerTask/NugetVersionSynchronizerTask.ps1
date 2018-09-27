@@ -65,8 +65,9 @@ $dropFolderPath = Get-VstsInput -Name dropFolderPath -Require
 $nuspecFileName = Get-VstsInput -Name nuspecFileName -Require
 $modelVersionFileName = Get-VstsInput -Name modelVersionFileName -Require
 $forceToVersion = Get-VstsInput -Name forceToVersion
+$postfix = Get-VstsInput -Name postfix
 
-Write-Host "Parameters : nuspecFileName=$nuspecFileName, modelVersionFileName=$modelVersionFileName, forceToVersion=$forceToVersion"
+Write-Host "Parameters : nuspecFileName=$nuspecFileName, modelVersionFileName=$modelVersionFileName, forceToVersion=$forceToVersion, postfix=$postfix"
 Write-Host "Starting NugetVersionSynchronizerTask"
 
 try {
@@ -82,8 +83,17 @@ try {
 		if (-not [string]::IsNullOrEmpty($forceToVersion))
 		{
 			# change nuspec version
-			Write-Host "Attempting to force set version $forceToVersion to nuspec file $dropFolderPath\$nuspecFileName"
-			SetMetadataValue "$dropFolderPath\$nuspecFileName" "version" $forceToVersion
+			if([string]::IsNullOrEmpty($postfix))
+			{
+				Write-Host "Attempting to force set version $forceToVersion to nuspec file $dropFolderPath\$nuspecFileName"
+				SetMetadataValue "$dropFolderPath\$nuspecFileName" "version" ($forceToVersion '-' + $postfix)
+			}
+			else
+			{
+				$postfixVersion = $forceToVersion + '-' + $postfix
+				Write-Host "Attempting to force set version $postfixVersion to nuspec file $dropFolderPath\$nuspecFileName"
+				SetMetadataValue "$dropFolderPath\$nuspecFileName" "version" $postfixVersion
+			}
 		}
 		else
 		{
@@ -93,10 +103,19 @@ try {
 			Write-Host "Nuspec version of $nuspecFile is v.$nuspecVersion"
 
 			if ($compareTo -ne 0)
-			{
+			{				
 				# change nuspec version and checkin
-				SetMetadataValue "$dropFolderPath\$nuspecFileName" "version" $assemblyVersion
-				Write-Host "Set version $assemblyVersion to nuspec file $dropFolderPath\$nuspecFileName"
+				if([string]::IsNullOrEmpty($postfix))
+				{			
+					Write-Host "Set version $assemblyVersion to nuspec file $dropFolderPath\$nuspecFileName"
+					SetMetadataValue "$dropFolderPath\$nuspecFileName" "version" $assemblyVersion
+				}
+				else
+				{
+					$postfixVersion = $forceToVersion + '-' + $postfix					
+					Write-Host "Set version $postfixVersion to nuspec file $dropFolderPath\$nuspecFileName"
+					SetMetadataValue "$dropFolderPath\$nuspecFileName" "version" $postfixVersion
+				}
 			}
 		}
 	}

@@ -52,6 +52,14 @@
             "defaultValue": "",
             "required": false,
             "helpMarkDown": "Force version to this value (no synchronization from model version file)."
+        },
+        {
+            "name": "postfix",
+            "type": "string",
+            "label": "Postfix to version number",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Adds a -$postfix value to the version where $postfix is replace with the supplied value if present."
         }
     ],
     "instanceNameFormat": "NugetVersionSynchronizerTask",
